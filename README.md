@@ -5,7 +5,7 @@ At a high level, it adds at-a-glance review word counts, discussion statistics, 
 
 ## Overview
 
-The extension runs locally in the browser and is intrinsically lightweight. The code in ```content.js``` parses the rendered HotCRP page and injects derived information into it. User preferences are stored through chrome.storage.sync.
+The extension runs locally in the browser and is intrinsically lightweight. The code in ```content.js``` parses the rendered HotCRP page and injects derived information into it. User preferences are stored through ```chrome.storage.sync```.
 
 The codebase uses plain JavaScript and HTML with no build step:
 * ```manifest.json``` defines supported HotCRP instances, 
@@ -22,6 +22,8 @@ Additional instructions and descriptions on how to use the extensions are provid
 ## Demo
 
 ![HotCRP Helper in action](hotcrp-helper-demo.gif)
+
+(Note: do not try to infer confidential information from this GIF. I deliberately “faked” everything to prevent any sort of deanonymization.)
 
 ## Frequently Asked Questions
 
@@ -66,7 +68,7 @@ This can happen as a result to updates to the HotCRP underlying's source code. I
 </details>
 
 <details>
-<summary><strong><i>There is a bug. What to do?</strong></summary>
+<summary><strong><i>There is a bug. What to do?</i></strong></summary>
 Drop me an email and explain the bug.
 </details>
 
