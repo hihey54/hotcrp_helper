@@ -28,7 +28,7 @@ Additional instructions and descriptions on how to use the extensions are provid
 Click on the question to see the answer.
 
 <details>
-<summary><strong>How do I install the extension?</strong></summary>
+<summary><strong><i>How do I install the extension?</i></strong></summary>
 
 Detailed instructions are [here](https://docs.google.com/presentation/d/1_Ly7ZjxoRYtMvdnjbljXEb6YxkXEAA4y/edit?slide=id.p19#slide=id.p19) (slide #21). At a high level:
 
@@ -41,44 +41,44 @@ Detailed instructions are [here](https://docs.google.com/presentation/d/1_Ly7Zjx
 </details>
 
 <details>
-<summary><strong>Does the extension transmit review data?</strong></summary>
+<summary><strong><i>Does the extension transmit review data?</i></strong></summary>
 
 No. The extension processes the rendered HotCRP page locally in your browser and does not send submission or review content to any remote endpoint.
 
 </details>
 
 <details>
-<summary><strong>How can I add another HotCRP venue?</strong></summary>
+<summary><strong><i>How can I add another HotCRP venue?</i></strong></summary>
 
 Add the venue’s URL pattern to the `matches` list in `manifest.json` (see [page#26 of the documentation](https://docs.google.com/presentation/d/1_Ly7ZjxoRYtMvdnjbljXEb6YxkXEAA4y/edit?slide=id.p24#slide=id.p24)) You may also need to update the field identifiers or selectors in `content.js` if that HotCRP instance uses a customized review form (see [page #30 of the documentation](https://docs.google.com/presentation/d/1_Ly7ZjxoRYtMvdnjbljXEb6YxkXEAA4y/edit?slide=id.p28#slide=id.p28))
 
 </details>
 
 <details>
-<summary><strong>The extension does not load anymore. What to do?</strong></summary>
+<summary><strong><i>The extension does not load anymore. What to do?</i></strong></summary>
 The extension must be manually loaded _for each Web Browser_ you use. For example, if you have two laptops, you must install it manually on both of them. 
 Alternatively, it could also be that you have accidentally deleted, or moved, the folder in which you saved the extension on your local drive.
 </details>
 
 <details>
-<summary><strong>Some wordcounts do not work anymore. What to do?</strong></summary>
+<summary><strong><i>Some wordcounts do not work anymore. What to do?</i></strong></summary>
 This can happen as a result to updates to the HotCRP underlying's source code. If you know what to do, you can attempt to modify the code of the extension yourself; otherwise, drop me an email and I will investigate it.
 </details>
 
 <details>
-<summary><strong>There is a bug. What to do?</strong></summary>
+<summary><strong><i>There is a bug. What to do?</strong></summary>
 Drop me an email and explain the bug.
 </details>
 
 <details>
-<summary><strong>Will you support other browsers (e.g., Firefox)?</strong></summary>
+<summary><strong><i>Will you support other browsers (e.g., Firefox)?</i></strong></summary>
 No. But I believe that modern LLMs can greatly help in "porting" the extension to Firefox. 
 
 (To be frank, I initially planned on making a Firefox-compatible version of the extension; however, I found that "distributing" it was particularly cumbersome.) 
 </details>
 
 <details>
-<summary><strong>I have a suggestion for a functionality. What to do?</strong></summary>
+<summary><strong><i>I have a suggestion for a functionality. What to do?</i></strong></summary>
 Feel free to reach out! Note, however, that the extension is meant to work by analysing _only_ the information shown on a given HotCRP's webpage. If your idea requires, e.g., making queries to remote endpoints, I may decide not to implement it as it would tamper with the extension's underlying principles. (But you're free to implement it yourself---potentially by forking this repository!) 
 </details>
 
