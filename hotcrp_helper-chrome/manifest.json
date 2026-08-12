@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "HotCRP Helper",
+  "version": "28",
+  "description": "An extension that facilitates the process of 'chairing/administering' the submissions made on HotCRP.",
+  "permissions": ["storage", "scripting"],
+  "author": "Giovanni Apruzzese",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "HotCRP Helper Settings"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://sec26cycle1.usenix.hotcrp.com/*paper/*",
+        "https://sec26cycle2.usenix.hotcrp.com/*paper/*",
+		"https://papers.submit.acsac.org/*paper/*",
+        "https://hotcrp.satml.org/*paper/*",
+        "https://hotcrp.eurosp2026.ieee-security.org/*paper/*",
+        "https://hotcrp.eurosp2025.ieee-security.org/*paper/*",
+        "https://acns26-cycle1.hotcrp.com/*paper/*",
+        "https://acns26-cycle2.hotcrp.com/*paper/*",
+        "https://asiaccs2026b.hotcrp.com/*paper/*",
+        "https://asiaccs2026a.hotcrp.com/*paper/*",
+        "https://dimva26r1.hotcrp.com/*paper/*",
+        "https://dimva26r2.hotcrp.com/*paper/*",
+        "https://ccs2026a.hotcrp.com/*paper/*",
+        "https://ccs2026b.hotcrp.com/*paper/*",
+        "https://cycle1.sp2027.ieee-security.org/",
+        "https://cycle2.sp2027.ieee-security.org/",
+        "https://sec27cycle1.usenix.hotcrp.com/*paper/*",
+        "https://sec27cycle2.usenix.hotcrp.com/*paper/*",
+        "https://satml27.hotcrp.com/*paper/*",
+        "https://aisec26.hotcrp.com/*paper/*",
+        "https://hotcrp.eurosp2027.ieee-security.org/*paper/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+	  "16": "icons/icon48.png",
+	  "48": "icons/icon48.png",
+	  "128": "icons/icon48.png"
+	},
+	"action": {
+	  "default_icon": {
+		"16": "icons/icon48.png",
+		"48": "icons/icon48.png",
+		"128": "icons/icon48.png"
+	  },
+	  "default_title": "HotCRP Helper",
+	  "default_popup": "popup.html"
+	}
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>HotCRP Helper Settings</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      min-width: 250px;
+      padding: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+	<img src="icons/icon48.png" alt="Extension Icon" class="logo" />
+  <h3>HotCRP Helper (v28)</h3>
+
+  <label>
+    <input type="checkbox" id="toggleWordCount">
+    Show review wordcount
+  </label>
+<label>
+  <input type="checkbox" id="toggleCommentStats">
+  Show comment stats
+</label>
+    <div>
+  <label>
+    <input type="checkbox" id="toggleDecisionRecommendationR1" />
+    Show decision recommendation (for R1)
+  </label>
+  <label>
+    <input type="checkbox" id="toggleExtraCounts">
+    Show author/LLM/em-dash counters
+  </label>
+
+  <label>
+    <input type="checkbox" id="toggleNormalizedWordCount">
+    Enable normalized word count
+  </label>
+</div>
+
+
+
+  <label for="visibilitySelect">Default visibility for comments:</label>
+  <select id="visibilitySelect">
+    <option value="au">Authors (eventually) and reviewers</option>
+    <option value="rev">Reviewers</option>
+    <option value="pc">PC only</option>
+    <option value="admin">Administrators only</option>
+  </select>
+
+<label for="threadSelect">Default Thread:</label>
+<select id="threadSelect">
+    <option value="rev">Reviews</option>
+    <option value="paper">Submission (not reviews)</option>
+</select>
+
+  <p style="font-size: 0.8em; color: gray; margin-top: 10px;">Settings are saved automatically.</p>
+
+  <script src="popup.js"></script>
+</body>
+</html>
