@@ -58,7 +58,7 @@ Add the venue’s URL pattern to the `matches` list in `manifest.json` (see [pag
 
 <details>
 <summary><strong><i>The extension does not load anymore. What to do?</i></strong></summary>
-The extension must be manually loaded _for each Web Browser_ you use. For example, if you have two laptops, you must install it manually on both of them. 
+The extension must be manually loaded <i>for each Web Browser</i> you use. For example, if you have two laptops, you must install it manually on both of them. 
 Alternatively, it could also be that you have accidentally deleted, or moved, the folder in which you saved the extension on your local drive.
 </details>
 
@@ -76,12 +76,11 @@ Drop me an email and explain the bug.
 <summary><strong><i>Will you support other browsers (e.g., Firefox)?</i></strong></summary>
 No. But I believe that modern LLMs can greatly help in "porting" the extension to Firefox. 
 
-(To be frank, I initially planned on making a Firefox-compatible version of the extension; however, I found that "distributing" it was particularly cumbersome.) 
 </details>
 
 <details>
 <summary><strong><i>I have a suggestion for a functionality. What to do?</i></strong></summary>
-Feel free to reach out! Note, however, that the extension is meant to work by analysing _only_ the information shown on a given HotCRP's webpage. If your idea requires, e.g., making queries to remote endpoints, I may decide not to implement it as it would tamper with the extension's underlying principles. (But you're free to implement it yourself---potentially by forking this repository!) 
+Feel free to reach out! Note, however, that the extension is meant to work by analysing <i>only</i> the information shown on a given HotCRP's webpage. If your idea requires, e.g., making queries to remote endpoints, I may decide not to implement it as it would tamper with the extension's underlying principles. (But you're free to implement it yourself---potentially by forking this repository!) 
 </details>
 
 ## Contact and Credit
