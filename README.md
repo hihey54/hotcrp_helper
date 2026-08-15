@@ -1,5 +1,5 @@
 
-HotCRP Helper is a browser extension, compliant with Manifest V3, for Chromium-based browsers that augments the webpages referring to specific submissions (i.e., "papers") on HotCRP. It is particularly addressed to "chairs" of scientific venues whose peer-review phase is managed via HotCRP instances, but it can also support vice/area/track chairs, as well as individual PC members. 
+HotCRP Helper is a browser extension, compliant with Manifest V3, for Chromium-based browsers that augments the webpages referring to specific submissions (i.e., "papers") on [HotCRP](https://hotcrp.com/). It is particularly addressed to "chairs" of scientific venues whose peer-review phase is managed via HotCRP instances, but it can also support vice/area/track chairs, as well as individual PC members. 
 
 At a high level, it adds at-a-glance review word counts, discussion statistics, per-reviewer post-rebuttal participation and last activity, one-click email links, configurable comment visibility and thread defaults, and normalized rebuttal word counts. It also provides optional rule-based R1 recommendations, as well as counters of specific keywords/symbols oftentimes associated to LLMs writing.
 
@@ -16,7 +16,7 @@ Since HotCRP fields and markup vary across venues and releases, field identifier
 
 Additional instructions and descriptions on how to use the extensions are provided in the following document https://docs.google.com/presentation/d/1_Ly7ZjxoRYtMvdnjbljXEb6YxkXEAA4y/edit?usp=sharing&ouid=111520430254027932974&rtpof=true&sd=true
 
-
+**Disclaimer:** This extension is meant to serve as a _support_ for peer-reviewing tasks. It is not meant to automate or replace the decision-making process. 
 
 
 ## Demo
@@ -87,4 +87,5 @@ Feel free to reach out! Note, however, that the extension is meant to work by an
 
 For any questions, contact giovannia@ru.is
 
-The extension was developed by Giovanni Apruzzese (with substantial support from ChatGPT :3), and the latest version integrates suggestions/feedback received by various researchers---particularly, the USENIX Security '26 (vice) PC co-Chairs, as well as Fabio Pierazzi and Konrad Rieck. 
+The extension was developed by Giovanni Apruzzese (with support from ChatGPT), and the latest version integrates suggestions/feedback received by various researchers---particularly, the USENIX Security '26 (vice) PC co-Chairs, as well as Fabio Pierazzi and Konrad Rieck.
+
