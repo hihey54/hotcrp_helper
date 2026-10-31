@@ -20,10 +20,11 @@ let reviewerSummaryCommentsInitialized = false;
   "use strict";
 
   const TARGET_DATA_RF = [
-    "ImpReaAcc", "LimAdd", "ConSugImpPap", "ConSugImp", "ReaNotAcc", "QueForThe", "ComEthMat", "OpeSciCom", "AddComAut", "ComPC", // Specific of USENIX SEC 26
+"ImpReaAcc", "LimAdd", "ConSugImpPap", "ConSugImp", "ReaNotAcc", "QueForThe", "ComEthMat", "OpeSciCom", "AddComAut", "ComPC", // Specific of USENIX SEC 26
     "PapSum", "Wea", "Str", "DetComAut", "ComAut", "MaiReaAcc", "MaiReaRej", // Common to other HotCRP instances
       "CorVerJus", "DegChaJus", "RelMotJus", "PerOpiExp", "AnyOthCon", "OveRecSum", "QueAutThe", "FurComSug",  //  AsiaCCS'26
-      "StrReaAcc", "WeaReaRej", "ConComAut", "AreAddAut", "DesAnyEth", "ConAddDur", "OpeSciCom.2" // CCS'26
+      "StrReaAcc", "WeaReaRej", "ConComAut", "AreAddAut", "DesAnyEth", "ConAddDur", "OpeSciCom.2", // CCS'26
+      "ComExpMet", "ComNovInt", "ComTecSou", "EthCon", "ComWriQua" // SaTML'27
   ];
 
 

@@ -89,3 +89,6 @@ For any questions, contact giovannia@ru.is
 
 The extension was developed by Giovanni Apruzzese (with support from ChatGPT), and the latest version integrates suggestions/feedback received by various researchers---particularly, the USENIX Security '26 (vice) PC co-Chairs, as well as Fabio Pierazzi and Konrad Rieck.
 
+## Changelog
+
+* v29: added support for SaTML '27
