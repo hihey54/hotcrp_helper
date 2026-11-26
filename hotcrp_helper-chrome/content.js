@@ -1,8 +1,8 @@
 // == HotCRP Helper Extension ==
 // Author: Giovanni Apruzzese
 // Description: Automatically sets comment visibility, displays review word counts, and shows a "suggested recommendation" on HotCRP.
-// Version: 28
-// Last update: 2026-08-12
+// Version: 30
+// Last update: 2026-11-26
 // ======================
 
 // flags to prevent repeated execution of functions
@@ -244,6 +244,76 @@ function normalizeReviewerEmails() {
   });
 }
 
+function addReviewerMailButton() {
+  const table = document.querySelector(".reinfotable table.reviewers");
+  const summary = table?.closest(".reinfotable");
+  if (!summary || summary.querySelector(".hotcrp-helper-mail-all")) return;
+
+  // HotCRP uses rt2 through rt5 for PC, secondary, primary, and meta reviews.
+  const reviewerCells = Array.from(table.querySelectorAll(":scope > tbody > tr.rl"),
+    row => row.cells[1]).filter(cell => cell?.querySelector(".rto:is(.rt2, .rt3, .rt4, .rt5)"));
+  if (!reviewerCells.length) return;
+
+  const paperUrl = new URL(document.querySelector("#h-title a[href]")?.href || location.href);
+  const paperPath = paperUrl.pathname.match(/\/paper(?:\.php)?(?:\/(\d+))?\/?$/);
+  const paperId = paperPath?.[1] || paperUrl.searchParams.get("p");
+  if (paperUrl.origin !== location.origin || !paperPath || !/^\d+$/.test(paperId || "")) return;
+
+  // Share the submission link without account selection, view parameters, or a review fragment.
+  paperUrl.pathname = paperUrl.pathname.replace(/\/u\/\d+(?=\/paper(?:[./]|$))/, "");
+  paperUrl.search = "";
+  paperUrl.hash = "";
+  if (!paperPath[1]) paperUrl.searchParams.set("p", paperId);
+
+  normalizeReviewerEmails();
+  const recipients = new Map();
+  let missingEmails = 0;
+  for (const cell of reviewerCells) {
+    const email = cell.querySelector(".taghl[title]")?.title.trim();
+    if (/^[^\s@<>"(),;\\]+@[^\s@<>"(),;\\]+$/.test(email || "")) {
+      const key = email.toLowerCase();
+      if (!recipients.has(key)) recipients.set(key, email);
+    } else {
+      missingEmails++;
+    }
+  }
+
+  const venue = document.querySelector("#h-site .header-site-name")?.textContent.trim()
+    || document.title.match(/^#\d+\s+-\s+(.+)$/)?.[1].trim()
+    || location.hostname;
+  const placeholders = {
+    "#paper": `#${paperId}`,
+    "#paperID": paperId,
+    "#conference": venue,
+    "#venue": venue,
+    "#link-to-paper": paperUrl.href,
+    "#link": paperUrl.href
+  };
+  const fillTemplate = template => template.replace(/#[a-zA-Z][\w-]*/g,
+    token => placeholders[token] ?? token);
+  const subject = fillTemplate(reviewerMailTemplate.subject).replace(/[\r\n]+/g, " ");
+  const body = fillTemplate(reviewerMailTemplate.body).replace(/\r\n|\r|\n/g, "\r\n");
+  const to = Array.from(recipients.values(), email => encodeURIComponent(email).replace("%40", "@"));
+
+  const actions = document.createElement("div");
+  actions.className = "mt-2 hotcrp-helper-mail-all";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "btn btn-sm";
+  button.textContent = "Send mail to all reviewers";
+  button.disabled = !to.length;
+  button.addEventListener("click", () => {
+    location.href = `mailto:${to.join(",")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+  actions.appendChild(button);
+
+  if (missingEmails) {
+    const note = missingEmails === 1 ? "assigned review has" : "assigned reviews have";
+    actions.append(` ${missingEmails} ${note} no visible email address.`);
+  }
+  table.after(actions);
+}
 
 
 // ===== REBUTTAL NORMALIZED WORD COUNT =====
@@ -574,6 +644,8 @@ function enhanceReviewerSummaryWithPostRebuttalComments() {
               enhanceReviewerSummaryWithPostRebuttalComments();
               reviewerSummaryCommentsInitialized = true;
           }
+
+          addReviewerMailButton();
 
           if (enableNormalizedWordCount) {
               addNormalizedWordCount();
