@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "HotCRP Helper",
-  "version": "30",
+  "version": "31",
   "description": "An extension that facilitates the process of 'chairing/administering' the submissions made on HotCRP.",
   "permissions": ["storage", "scripting"],
   "author": "Giovanni Apruzzese",

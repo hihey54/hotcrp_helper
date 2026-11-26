@@ -1,7 +1,7 @@
 // == HotCRP Helper Extension ==
 // Author: Giovanni Apruzzese
 // Description: Automatically sets comment visibility, displays review word counts, and shows a "suggested recommendation" on HotCRP.
-// Version: 30
+// Version: 31
 // Last update: 2026-11-26
 // ======================
 
@@ -47,7 +47,10 @@ let reviewerSummaryCommentsInitialized = false;
     "traditional", "competent", "contentious", "widespread", "environmental",
     "instrumental", "substantive", "creative", "academic", "sizeable",
     "extant", "demonstrable", "prudent", "practicable", "signatory",
-    "continental", "unnoticed", "automotive", "minimalistic", "intelligent"]; // from https://arxiv.org/pdf/2403.07183?
+    "continental", "unnoticed", "automotive", "minimalistic", "intelligent", // from https://arxiv.org/pdf/2403.07183?
+    "ablation", "audit-", "collaps-", "why", "frozen", "matter-",
+    "evidence", "defect", "corpora", "confound", "synthesis", "2x2", "2×2",
+    "control-", "pair-"];
 
   const LLM_SYMBOLS = ["–", "≥", "≤", "≠", "→", "←", "", "", "~", "≈"]; // "…", "”", "“", "«", "»", "‘", "’", "‹", "›" I have omitted these because MAC users and/or users of certain layouts may use these, too---which can lead to false positives.
 
@@ -95,7 +98,12 @@ let reviewerSummaryCommentsInitialized = false;
           }, 0);
 
           const countLlmWords = LLM_WORDS.reduce((acc, word) => {
-              const regex = new RegExp(`\\b${word}\\b`, "gi");
+              // A trailing hyphen lets the term match the base word and its suffixes.
+              const hasWildcard = word.endsWith("-");
+              const stem = hasWildcard ? word.slice(0, -1) : word;
+              const escapedStem = stem.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+              const suffix = hasWildcard ? "\\w*" : "";
+              const regex = new RegExp(`\\b${escapedStem}${suffix}\\b`, "gi");
               return acc + (fullText.match(regex) || []).length;
           }, 0);
 
@@ -266,11 +274,13 @@ function addReviewerMailButton() {
   if (!paperPath[1]) paperUrl.searchParams.set("p", paperId);
 
   normalizeReviewerEmails();
-  const recipients = new Map();
+  const reviewers = new Map();
+  const metareviewers = new Map();
   let missingEmails = 0;
   for (const cell of reviewerCells) {
     const email = cell.querySelector(".taghl[title]")?.title.trim();
     if (/^[^\s@<>"(),;\\]+@[^\s@<>"(),;\\]+$/.test(email || "")) {
+      const recipients = cell.querySelector(".rto.rt5") ? metareviewers : reviewers;
       const key = email.toLowerCase();
       if (!recipients.has(key)) recipients.set(key, email);
     } else {
@@ -293,25 +303,42 @@ function addReviewerMailButton() {
     token => placeholders[token] ?? token);
   const subject = fillTemplate(reviewerMailTemplate.subject).replace(/[\r\n]+/g, " ");
   const body = fillTemplate(reviewerMailTemplate.body).replace(/\r\n|\r|\n/g, "\r\n");
-  const to = Array.from(recipients.values(), email => encodeURIComponent(email).replace("%40", "@"));
+
+  // An address with both roles belongs in CC only.
+  for (const email of metareviewers.keys()) reviewers.delete(email);
+  const encodeRecipients = recipients => Array.from(recipients.values(),
+    email => encodeURIComponent(email).replace("%40", "@")).join(",");
+  const to = encodeRecipients(reviewers);
+  const cc = encodeRecipients(metareviewers);
+  const fields = [`subject=${encodeURIComponent(subject)}`, `body=${encodeURIComponent(body)}`];
+  if (cc) fields.push(`cc=${cc}`);
 
   const actions = document.createElement("div");
-  actions.className = "mt-2 hotcrp-helper-mail-all";
+  actions.className = "hotcrp-helper-mail-all";
+  actions.style.width = "min-content";
+  actions.style.justifySelf = "end";
 
   const button = document.createElement("button");
   button.type = "button";
   button.className = "btn btn-sm";
   button.textContent = "Send mail to all reviewers";
-  button.disabled = !to.length;
+  button.disabled = !to && !cc;
   button.addEventListener("click", () => {
-    location.href = `mailto:${to.join(",")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    location.href = `mailto:${to}?${fields.join("&")}`;
   });
   actions.appendChild(button);
 
   if (missingEmails) {
-    const note = missingEmails === 1 ? "assigned review has" : "assigned reviews have";
-    actions.append(` ${missingEmails} ${note} no visible email address.`);
+    const note = document.createElement("div");
+    const assignment = missingEmails === 1 ? "assigned review has" : "assigned reviews have";
+    note.className = "small";
+    note.textContent = `${missingEmails} ${assignment} no visible email address.`;
+    actions.appendChild(note);
   }
+  Object.assign(table.parentElement.style, {
+    display: "grid",
+    gridTemplateColumns: "max-content"
+  });
   table.after(actions);
 }
 

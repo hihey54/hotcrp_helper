@@ -4,6 +4,7 @@
 const reviewerMailTemplate = {
   subject: "Message for Submission #paper of #conference",
   body: `Dear Reviewers,
+  
 This is a message concerning Submission #paper ( #link-to-paper ) submitted to #venue, which is currently assigned to you.
 
 

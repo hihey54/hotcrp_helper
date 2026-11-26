@@ -91,4 +91,6 @@ The extension was developed by Giovanni Apruzzese (with support from ChatGPT), a
 
 ## Changelog
 
+* v31: updated list of AI words
+* v30: added "mail all" button
 * v29: added support for SaTML '27
