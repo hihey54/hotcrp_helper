@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "HotCRP Helper",
-  "version": "31",
+  "version": "32",
   "description": "An extension that facilitates the process of 'chairing/administering' the submissions made on HotCRP.",
   "permissions": ["storage", "scripting"],
   "author": "Giovanni Apruzzese",
@@ -32,7 +32,8 @@
         "https://sec27cycle2.usenix.hotcrp.com/*paper/*",
         "https://satml27.hotcrp.com/*paper/*",
         "https://aisec26.hotcrp.com/*paper/*",
-        "https://hotcrp.eurosp2027.ieee-security.org/*paper/*"
+        "https://hotcrp.eurosp2027.ieee-security.org/*paper/*",
+        "*hotcrp*/*paper/*"
       ],
       "js": ["mail-template.js", "content.js"]
     }

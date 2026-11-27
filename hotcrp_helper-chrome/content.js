@@ -1,8 +1,8 @@
 // == HotCRP Helper Extension ==
 // Author: Giovanni Apruzzese
 // Description: Automatically sets comment visibility, displays review word counts, and shows a "suggested recommendation" on HotCRP.
-// Version: 31
-// Last update: 2026-11-26
+// Version: 32
+// Last update: 2026-11-27
 // ======================
 
 // flags to prevent repeated execution of functions

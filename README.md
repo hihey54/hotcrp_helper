@@ -3,6 +3,13 @@ HotCRP Helper is a browser extension, compliant with Manifest V3, for Chromium-b
 
 At a high level, it adds at-a-glance review word counts, discussion statistics, per-reviewer post-rebuttal participation and last activity, one-click email links, configurable comment visibility and thread defaults, and normalized rebuttal word counts. It also provides optional rule-based R1 recommendations, as well as counters of specific keywords/symbols oftentimes associated to LLMs writing.
 
+## Changelog
+
+* v32: generic HotCRP instance compatibility
+* v31: updated list of AI words
+* v30: added "mail all" button
+* v29: added support for SaTML '27
+
 ## Overview
 
 The extension runs locally in the browser and is intrinsically lightweight. The code in ```content.js``` parses the rendered HotCRP page and injects derived information into it. User preferences are stored through ```chrome.storage.sync```.
@@ -89,8 +96,3 @@ For any questions, contact giovannia@ru.is
 
 The extension was developed by Giovanni Apruzzese (with support from ChatGPT), and the latest version integrates suggestions/feedback received by various researchers---particularly, the USENIX Security '26 (vice) PC co-Chairs, as well as Fabio Pierazzi and Konrad Rieck.
 
-## Changelog
-
-* v31: updated list of AI words
-* v30: added "mail all" button
-* v29: added support for SaTML '27
