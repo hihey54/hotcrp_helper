@@ -33,7 +33,7 @@
         "https://satml27.hotcrp.com/*paper/*",
         "https://aisec26.hotcrp.com/*paper/*",
         "https://hotcrp.eurosp2027.ieee-security.org/*paper/*",
-        "*hotcrp*/*paper/*"
+        "https://*.hotcrp.com/*paper/*"
       ],
       "js": ["mail-template.js", "content.js"]
     }

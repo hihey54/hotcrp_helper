@@ -1,7 +1,7 @@
 // == HotCRP Helper Extension ==
 // Author: Giovanni Apruzzese
 // Description: Automatically sets comment visibility, displays review word counts, and shows a "suggested recommendation" on HotCRP.
-// Version: 32
+// Version: 33
 // Last update: 2026-11-27
 // ======================
 
@@ -172,52 +172,24 @@ let reviewerSummaryCommentsInitialized = false;
     });
   };
 
-// ===== VISIBILITY SETTER =====
+// ===== NEW COMMENT DEFAULTS =====
 
-    const setVisibilityOnce = () => {
-      const select = document.querySelector("#cnew-visibility");
-      if (select && !select.dataset.visibilitySet) {
-        chrome.storage.sync.get(["defaultVisibility", "defaultThread"], (result) => {
-          const defaultValue = result.defaultVisibility || "admin";
-          select.value = defaultValue;
-          select.setAttribute("data-default-value", defaultValue);
-          select.dispatchEvent(new Event("change", { bubbles: true }));
-          select.dataset.visibilitySet = "true";
-          console.log("Set visibility to:", defaultValue);
+    const setNewCommentDefaults = ({defaultVisibility, defaultThread}) => {
+      // HotCRP now separates the comment ID and field name with a colon.
+      const fields = [
+        ['select[id="cnew:visibility"], select#cnew-visibility', "visibilitySet", defaultVisibility || "admin"],
+        ['select[id="cnew:thread"], select#cnew-thread', "threadSet", defaultThread || "rev"]
+      ];
+      for (const [selector, flag, value] of fields) {
+        const select = document.querySelector(selector);
+        if (!select || select.dataset[flag]) continue;
+        if (!Array.from(select.options).some(option => option.value === value && !option.disabled)) continue;
 
-          // ===== THREAD DROPDOWN =====
-          const threadSelect = document.querySelector("#cnew-thread");
-          if (threadSelect && !threadSelect.dataset.threadSet) {
-            const defaultThread = result.defaultThread || "rev";
-            threadSelect.value = defaultThread;
-            threadSelect.setAttribute("data-default-value", defaultThread);
-            threadSelect.dispatchEvent(new Event("change", { bubbles: true }));
-            threadSelect.dataset.threadSet = "true";
-            console.log("Set thread to:", defaultThread);
-          }
-
-        });
+        select.dataset[flag] = "true";
+        select.value = value;
+        select.setAttribute("data-default-value", value);
+        select.dispatchEvent(new Event("change", { bubbles: true }));
       }
-    };
-
-    const setThreadOnce = () => {
-      const observer = new MutationObserver(() => {
-        const threadSelect = document.querySelector("#cnew-thread");
-        if (threadSelect && !threadSelect.dataset.threadSet) {
-          chrome.storage.sync.get(["defaultThread"], (result) => {
-            const defaultThread = result.defaultThread || "rev";
-            threadSelect.value = defaultThread;
-            threadSelect.setAttribute("data-default-value", defaultThread);
-            threadSelect.dispatchEvent(new Event("change", { bubbles: true }));
-            threadSelect.dataset.threadSet = "true";
-            console.log("Set thread to:", defaultThread);
-          });
-
-          observer.disconnect();
-        }
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true });
     };
 
 
@@ -647,8 +619,10 @@ function enhanceReviewerSummaryWithPostRebuttalComments() {
 
     const loadSettings = () => {
       chrome.storage.sync.get(
-        ["showWordCount", "showDecisionRecommendationR1", "showExtraCounts", "showCommentStats", "showNormalizedWordCount"],
+        ["showWordCount", "showDecisionRecommendationR1", "showExtraCounts", "showCommentStats", "showNormalizedWordCount", "defaultVisibility", "defaultThread"],
         (result) => {
+          setNewCommentDefaults(result);
+
           const enableWordCount = result.showWordCount ?? true;
           const enableDecisionRecommendationR1 = result.showDecisionRecommendationR1 ?? true;
           const enableExtraCounts = result.showExtraCounts ?? true;
@@ -678,9 +652,6 @@ function enhanceReviewerSummaryWithPostRebuttalComments() {
           if (enableNormalizedWordCount) {
               addNormalizedWordCount();
           }
-
-          setVisibilityOnce();
-          setThreadOnce();
 
         }
       );
@@ -718,22 +689,27 @@ function checkPriobidAndMetrics() {
     priobid = true;
   }
 
-  // 2. Parse review info table for OveMer and RevExp
+  // 2. Read merit and expertise scores, or confidence on forms such as SaTML.
   const reinfotable = document.querySelector(".reinfotable-container");
   if (reinfotable) {
     const rows = reinfotable.querySelectorAll("tr.rl");
+    const expertiseSelector = reinfotable.querySelector('[data-rf="RevExp"]')
+      ? '[data-rf="RevExp"]'
+      : '[data-rf="RevCon"]';
 
     rows.forEach(row => {
       const meritCell = row.querySelector('[data-rf="OveMer"]');
-      const expertCell = row.querySelector('[data-rf="RevExp"]');
+      const expertCell = row.querySelector(expertiseSelector);
       const openSciCell = row.querySelector('[data-rf="OpeSciMat"]');
 
-      const merit = meritCell?.innerText?.trim();
-      const expertise = expertCell?.innerText?.trim();
+      const merit = Number.parseInt(meritCell?.textContent, 10);
+      const expertise = Number.parseInt(expertCell?.textContent, 10);
       const openSci = openSciCell?.innerText?.trim();
 
-      if (merit) Merits.push(merit);
-      if (expertise) Expertises.push(expertise);
+      if (Number.isInteger(merit) && Number.isInteger(expertise)) {
+        Merits.push(merit);
+        Expertises.push(expertise);
+      }
       if (openSci) OpenScienceValues.push(openSci);
 
     });
@@ -781,16 +757,12 @@ function checkPriobidAndMetrics() {
 
 // ===== Evaluate reviews based on metrics =====
 
-function evaluateReviews(priobid, Merits, Expertises) {
-  // Convert string values to numbers
-  const numericMerits = Merits.map(m => parseInt(m)).filter(n => !isNaN(n));
-  const numericExpertises = Expertises.map(e => parseInt(e)).filter(n => !isNaN(n));
-
+function evaluateReviews(priobid, numericMerits, numericExpertises) {
   const meritSum = numericMerits.reduce((a, b) => a + b, 0);
 
   // Case 1: Not enough reviews
   if (numericMerits.length < 2 || numericExpertises.length < 2) {
-    return "Advance to R2 (not enough reviews)";
+    return "Advance to R2 (not enough reviews with both scores)";
   }
 
   // Case 2: Low support, all expertise < 2

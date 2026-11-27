@@ -5,6 +5,7 @@ At a high level, it adds at-a-glance review word counts, discussion statistics, 
 
 ## Changelog
 
+* v33: fixed thread selector not working
 * v32: generic HotCRP instance compatibility
 * v31: updated list of AI words
 * v30: added "mail all" button
