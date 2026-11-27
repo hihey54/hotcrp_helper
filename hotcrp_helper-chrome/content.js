@@ -48,9 +48,10 @@ let reviewerSummaryCommentsInitialized = false;
     "instrumental", "substantive", "creative", "academic", "sizeable",
     "extant", "demonstrable", "prudent", "practicable", "signatory",
     "continental", "unnoticed", "automotive", "minimalistic", "intelligent", // from https://arxiv.org/pdf/2403.07183?
-    "ablation", "audit-", "collaps-", "why", "frozen", "matter-",
+    "ablation", "audit-", "collaps-", "why", "frozen", "matter-", // from here onward, they are from Giovanni's own investigation
     "evidence", "defect", "corpora", "confound", "synthesis", "2x2", "2×2",
-    "control-", "pair-"];
+    "control-", "pair-", "substantial-", "sufficient-", "strengthen-", "affect-",
+    "narrow-", "versus", "explicitly", "stronger", "remain-", "clearer", "establish-"];
 
   const LLM_SYMBOLS = ["–", "≥", "≤", "≠", "→", "←", "", "", "~", "≈"]; // "…", "”", "“", "«", "»", "‘", "’", "‹", "›" I have omitted these because MAC users and/or users of certain layouts may use these, too---which can lead to false positives.
 
